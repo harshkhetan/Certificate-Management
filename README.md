@@ -26,11 +26,11 @@ If a third party wants to check the details of issuer, recipient, or the certifi
 
 The system also provides any user to access the data of who issued and when it was issued. This provides a way to check the authenticity of the certificate, the recipient, and the issuer.
 
-#### Validations 
+## Validations 
 * Only identified issuer can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
 * The certificate which is issued, cannot be minted twice. If a certificate already exists for the recipient address and Program an error will be thrown.
 
-#### Users 
+## Users 
 There are 3 types of users the system provides support to: 
 
 * **Issuer:** This is the certifying authority, which mints new certificates, then issues the desired recipient that certificate. 
