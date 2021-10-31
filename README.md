@@ -16,6 +16,8 @@ Smart contract is a code which runs on blockchain, and is analogous to a traditi
 The dependency is a personal blockchain, which is a local development blockchain that we used to recreate the behavior of a public blockchain. In this case we used Ganache as our personal blockchain for Ethereum development. It also allowed us to deploy smart contracts, develop applications and run tests.
 
 ## **Architecture Overview** 
+![Certificate Management Architecture Overview](/assets/images/Certificate-Management.jpg)
+
 To certify any recipient, an issuer first mints the certificate as a Non-fungible token (NFT) token using the registered recipient’s Employee Id. At the recipient’s end, it can get the details of all the certificates he has received. 
 
 If a third party wants to check the details of issuer, recipient, or the certificate, it can easily do so. The function for Issuing, or retrieving certificates is implemented in the form of transaction. The cost of any transaction done, is the “gas” cost. 
