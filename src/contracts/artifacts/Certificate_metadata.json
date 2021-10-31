@@ -721,7 +721,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"blockchain-capstone-harsh-roddy/src/contracts/Certificate.sol": "Certificate"
+			"src/contracts/Certificate.sol": "Certificate"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -847,7 +847,7 @@
 				"dweb:/ipfs/QmcsVgLgzWdor3UnAztUkXKNGcysm1MPneWksF72AvnwBx"
 			]
 		},
-		"blockchain-capstone-harsh-roddy/src/contracts/Certificate.sol": {
+		"src/contracts/Certificate.sol": {
 			"keccak256": "0x83ae7519bc1049a0a9f06ee8396623f48d02a364a3a54e5263b05fd9030cc37d",
 			"license": "UNLICENSED",
 			"urls": [
