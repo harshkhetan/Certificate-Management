@@ -22118,7 +22118,7 @@
 				{
 					"indexed": false,
 					"internalType": "string",
-					"name": "certificationEvent_guildProgram",
+					"name": "certificationEvent_program",
 					"type": "string"
 				},
 				{
@@ -22236,7 +22236,7 @@
 				},
 				{
 					"internalType": "string",
-					"name": "guildProgram",
+					"name": "program",
 					"type": "string"
 				}
 			],
@@ -22300,7 +22300,7 @@
 				},
 				{
 					"internalType": "string",
-					"name": "_guildProgram",
+					"name": "_program",
 					"type": "string"
 				},
 				{

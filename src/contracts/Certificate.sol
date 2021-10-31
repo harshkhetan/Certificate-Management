@@ -24,8 +24,8 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         
          uint employeeId;
         string employeeName; 
-        // The Guild Program
-        string guildProgram;
+        // The Program
+        string program;
         // Certificate Issuance Date
         uint timeOfIssue;
         address issuer;
@@ -35,7 +35,7 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
         struct employee {
          uint employeeId;
-        string guildProgram;
+        string program;
     } 
 
     employee[] public employeeCertificate;
@@ -52,10 +52,10 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     // Events
 
-    //event CertificateIssued(uint indexed employeeId, string indexed employeeName, string indexed guildProgram, address indexed issuer, address indexed recipient);
+    //event CertificateIssued(uint indexed employeeId, string indexed employeeName, string indexed program, address indexed issuer, address indexed recipient);
     
     // Event which will be raised anytime the current certificate information is updated.
-    event certificationEvent(uint certificationEvent_employeeId, string certificationEvent_employeeName, string certificationEvent_guildProgram, address certificationEvent_issuer, string  certificationEvent_tokenURI);
+    event certificationEvent(uint certificationEvent_employeeId, string certificationEvent_employeeName, string certificationEvent_program, address certificationEvent_issuer, string  certificationEvent_tokenURI);
     // Event which will be raised anytime the current Certificate information is updated.
     event errorEvent(string errorEvent_Description);
 
@@ -100,26 +100,26 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 // // TEST FUNCTIONS
 //     // Returns the current certificate information
 //     function getCertificate() public view returns (uint, string memory, string memory, address) {
-//         return (newCert.employeeId,newCert.employeeName,newCert.guildProgram,newCert.recipient);
+//         return (newCert.employeeId,newCert.employeeName,newCert.program,newCert.recipient);
 //     } // getCertificate
     
 //     // Set the certificate information
-//     function setCertificate(uint _employeeId, string memory _employeeName, string memory _guildProgram, address _recipient) public {
+//     function setCertificate(uint _employeeId, string memory _employeeName, string memory _program, address _recipient) public {
 //         newCert.employeeId = _employeeId;
 //         newCert.employeeName = _employeeName;
-//         newCert.guildProgram = _guildProgram;
+//         newCert.program = _program;
 //         newCert.timeOfIssue = block.timestamp;
 //         newCert.issuer = owner();
 //         newCert.recipient = _recipient;
-//         emit certificationEvent(newCert.employeeId,newCert.employeeName,newCert.guildProgram);
+//         emit certificationEvent(newCert.employeeId,newCert.employeeName,newCert.program);
 //     } // setCertificate
 
 
 
-function issueCertificate(uint _employeeId, string memory _employeeName, string memory _guildProgram, address _issuer,  string memory _tokenURI) public onlyOwner {
+function issueCertificate(uint _employeeId, string memory _employeeName, string memory _program, address _issuer,  string memory _tokenURI) public onlyOwner {
    
     require(owner() == _issuer, "Issuer do not have permission to issue a certificate");
-    require(isExist(_employeeId,_guildProgram) == false, "Requested certificate is already issued to the employee.");
+    require(isExist(_employeeId,_program) == false, "Requested certificate is already issued to the employee.");
    
     uint id = mintNFT(_issuer, _tokenURI);
     
@@ -128,7 +128,7 @@ function issueCertificate(uint _employeeId, string memory _employeeName, string 
 
         cert.employeeId = _employeeId;
         cert.employeeName = _employeeName;
-        cert.guildProgram = _guildProgram;
+        cert.program = _program;
         cert.timeOfIssue = block.timestamp;
         cert.issuer = owner();
         //cert.recipient = _recipient;
@@ -138,19 +138,19 @@ function issueCertificate(uint _employeeId, string memory _employeeName, string 
         recipientCertificates[_employeeId].push(id);
         issuerCertificates[owner()].push(id);
 
-        employee memory newEmployee = employee(_employeeId,_guildProgram);
+        employee memory newEmployee = employee(_employeeId,_program);
         employeeCertificate.push(newEmployee);
         
-      emit certificationEvent(cert.employeeId,cert.employeeName,cert.guildProgram, cert.issuer, _tokenURI);
+      emit certificationEvent(cert.employeeId,cert.employeeName,cert.program, cert.issuer, _tokenURI);
     }
 
-      function isExist (uint _employeeId, string memory _guildProgram) private view returns (bool){
+      function isExist (uint _employeeId, string memory _program) private view returns (bool){
       if(employeeCertificate.length == 0)
       {
           return false;
       }    
       for (uint i = 0; i< employeeCertificate.length; i++){
-          if (employeeCertificate[i].employeeId ==_employeeId && keccak256(abi.encodePacked(employeeCertificate[i].guildProgram)) ==keccak256(abi.encodePacked(_guildProgram)))
+          if (employeeCertificate[i].employeeId ==_employeeId && keccak256(abi.encodePacked(employeeCertificate[i].program)) ==keccak256(abi.encodePacked(_program)))
                return true;
          //break;
          
@@ -163,7 +163,7 @@ function issueCertificate(uint _employeeId, string memory _employeeName, string 
 //     uint _latest = recipientCertificates[_recipient].length;
 //     uint _lastTokenId = recipientCertificates[_recipient][_latest-1];
 //     certification memory cert = certificateIdentifier[_lastTokenId];
-//     return (cert.employeeId,cert.employeeName,cert.guildProgram, cert.timeOfIssue, cert.issuer, cert.recipient, tokenURI(_lastTokenId));
+//     return (cert.employeeId,cert.employeeName,cert.program, cert.timeOfIssue, cert.issuer, cert.recipient, tokenURI(_lastTokenId));
 
 //     }
 
@@ -173,7 +173,7 @@ function issueCertificate(uint _employeeId, string memory _employeeName, string 
     uint _latest = recipientCertificates[_employeeId].length;
     uint _lastTokenId = recipientCertificates[_employeeId][_latest-1];
     certification memory cert = certificateIdentifier[_lastTokenId];
-    return (cert.employeeId,cert.employeeName,cert.guildProgram, cert.timeOfIssue, cert.issuer, tokenURI(_lastTokenId));
+    return (cert.employeeId,cert.employeeName,cert.program, cert.timeOfIssue, cert.issuer, tokenURI(_lastTokenId));
 
     }
     

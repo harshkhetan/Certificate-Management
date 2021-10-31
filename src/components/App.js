@@ -92,7 +92,7 @@ this.setState({networkId})
             target="_blank"
             rel="noopener noreferrer"
           >
-          &nbsp; Blockchain Guild Certification
+          &nbsp; Certificate Management
           </a>
           <ul className="navbar-nav px-3">
             <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
