@@ -50,17 +50,17 @@ There is gas fees for each transaction while placing the bet depends on the smar
 ## **Tools Used** 
 > Tools used for development and testing.
 
-**Version Control:** git (https://git-scm.com/) and GitHub (github.com) 
-**Code Editor:** Visual Studio Code (https://code.visualstudio.com/) 
-**Ethereum** 
+* **Version Control:** git (https://git-scm.com/) and GitHub (github.com) 
+* **Code Editor:** Visual Studio Code (https://code.visualstudio.com/) 
+* **Ethereum** 
 * Remix (https://remix.ethereum.org/) 
 * Truffle (https://www.trufflesuite.com/) 
 * Ganache (https://www.trufflesuite.com/ganache) 
 * Web3 (https://web3js.readthedocs.io/en/v1.5.2/) 
 * Open Zeppelin (https://openzeppelin.com/contracts/) 
 
-**Development on Windows:** Windows Subsystem for Linux – Ubuntu & OSX 
-**Browser:** Google Chrome
+* **Development on Windows:** Windows Subsystem for Linux – Ubuntu & OSX 
+* **Browser:** Google Chrome
 
 ## **Future Scope**
 >Below are some of the highlights:
