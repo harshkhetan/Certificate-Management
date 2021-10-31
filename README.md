@@ -26,16 +26,16 @@ Gas is a transaction fee required when interacting with the smart contract. The 
 
 The system also provides any user to access the data of who issued and when it was issued. This provides a way to check the authenticity of the certificate, the recipient, and the issuer.
 
-#### Checks 
+#### Validations 
 Only identified issuer can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
 
-The certificate which is issued, cannot be minted twice. If a certificate already exists for the unique identifier (recipient address) and Program/level an error will be thrown.
+The certificate which is issued, cannot be minted twice. If a certificate already exists for the unique identifier (recipient address) and Program an error will be thrown.
 
 #### Users 
 There are 3 types of users the system provides support to: 
 
 * **Issuer:** This is the certifying authority, which mints new certificates, then issues the desired recipient that certificate. 
-* **Recipient:** This is the recipient of the certificate. They provide their recipient address to the issuer, to get the certificate issued. 
+* **Recipient:** This is the recipient of the certificate. They have their own unique address; Issuer can also access recipient’s details from its address and issue certificate NFT tokens to the recipient. Whenever any recipient of the certificate must prove its certifications, he can simply send its address. 
 * **Third Party:** This can be any anonymous user, which wants to verify the recipient’s certificate.
 
 ## **Advantages** 
@@ -69,7 +69,6 @@ There is gas fees for each transaction while placing the bet depends on the smar
 
 * Expand it to multiple issuers. All the issuers/ recipients register themselves to the system. 
 * The profile details of the users are stored on IPFS, identified by some unique hash, which is stored in the blockchain.  
-* Recipient have their own unique address; Issuer can also access recipient’s details from its address and issue certificate NFT tokens to the recipient. Whenever any recipient of the certificate must prove its certifications, he can simply send its address. 
 * A feature of revoking a certificate can be added which can also be used for time-valid certificates. 
 * A system of privilege-based access to certificate can be implemented, where only the allowed users can access the certificates. 
 * Migrate FE to React with Material UI theme
