@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Blockchain Guild Certification</title>
+    <title>Certificate Management</title>
 
     <link rel="stylesheet" type="text/css" href="main.css">
 
@@ -16,7 +16,7 @@
 <body>
     <div class="container">
 
-        <h1>Certificate Management</h1>
+        <h1>Certificate Dashboard</h1>
 		<!--Display a spinner while waiting for information-->
 		<img id="loader" src="ajax-loader.gif">
         <h2 id="certification"></h2>
@@ -27,8 +27,8 @@
         <label for="employeeName" class="col-lg-2 control-label">Employee Name</label>
         <input id="employeeName" type="text">
 
-        <label for="guildProgram" class="col-lg-2 control-label">Guild Program</label>
-		<select id="guildProgram" name="guildProgram" style="width:52%;height:40px;margin-bottom: 1em;font-size:17px;" >
+        <label for="Program" class="col-lg-2 control-label"> Program</label>
+		<select id="Program" name="Program" style="width:52%;height:40px;margin-bottom: 1em;font-size:17px;" >
 			<option value="Explorer">Explorer</option>
 			<option value="Apprentice">Apprentice</option>
 			<option value="Guru">Guru</option>
@@ -184,7 +184,7 @@
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "certificationEvent_guildProgram",
+				"name": "certificationEvent_Program",
 				"type": "string"
 			},
 			{
@@ -248,7 +248,7 @@
 			},
 			{
 				"internalType": "string",
-				"name": "_guildProgram",
+				"name": "_Program",
 				"type": "string"
 			},
 			{
@@ -452,7 +452,7 @@
 			},
 			{
 				"internalType": "string",
-				"name": "guildProgram",
+				"name": "Program",
 				"type": "string"
 			}
 		],
@@ -734,7 +734,7 @@ console.log($("#employeeId").val());
 		function(error, result){
 			if (!error) {
 				$("#loader").hide();
-				$("#certification").html('Employee Id: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeId + '</font><br/>  Employee Name: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeName + '</font><br/>  Guild Program: <font color=blue size=4>' + result.returnValues.certificationEvent_guildProgram + '</font><br/>  Issuer: <font color=blue size=4>' + result.returnValues.certificationEvent_issuer + '</font><br/>  Certificate URL: <font color=blue size=4>'+ result.returnValues.certificationEvent_tokenURI + '</font>');
+				$("#certification").html('Employee Id: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeId + '</font><br/>  Employee Name: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeName + '</font><br/>   Program: <font color=blue size=4>' + result.returnValues.certificationEvent_Program + '</font><br/>  Issuer: <font color=blue size=4>' + result.returnValues.certificationEvent_issuer + '</font><br/>  Certificate URL: <font color=blue size=4>'+ result.returnValues.certificationEvent_tokenURI + '</font>');
 			
 			} else {
 				$("#loader").hide();
@@ -757,7 +757,7 @@ console.log($("#employeeId").val());
 		// Get certification info from the UI
 		var theEmployeeId = $("#employeeId").val();
 		var theEmployeeName = $("#employeeName").val();
-		var theGuildProgram = $("#guildProgram option:selected").text();
+		var theProgram = $("#Program option:selected").text();
 	    var theIssuerAddress = $("#issuer").val();
 	    var theTokenURI = $("#tokenURI").val();
 		// Show the loading icon. This icon will be hidden when the certificateEvent event is raised by the contract.
@@ -765,11 +765,11 @@ console.log($("#employeeId").val());
 		
 		// if (!error) {
 			// Pass collected info to SetCertificate contract method
-			certificateContract.methods.issueCertificate(theEmployeeId, theEmployeeName, theGuildProgram, theIssuerAddress,  theTokenURI).send({from:myAccountNumber,gas:1000000});
+			certificateContract.methods.issueCertificate(theEmployeeId, theEmployeeName, theProgram, theIssuerAddress,  theTokenURI).send({from:myAccountNumber,gas:1000000});
 
 			document.getElementById("employeeId").value="";
 			document.getElementById("employeeName").value="";
-			document.getElementById("guildProgram").value="Explorer";
+			document.getElementById("Program").value="Explorer";
 			document.getElementById("issuer").value="";
 			document.getElementById("tokenURI").value="";
 		// } else
@@ -801,7 +801,7 @@ $("#loader").show();
 certificateContract.methods.retrieveCertificate($("#employeeId").val()).call(function (error, result) {
 		console.log($("#employeeId").val());
 		if (!error) {
-			$("#certification").html('<b>Employee Id: </b><font color=blue size=4>' + result[0] + '</font><br/><b>  Employee Name: </b><font color=blue size=4>' + result[1] + '</font><br/><b>  Guild Program: </b><font color=blue size=4>' + result[2] + '</font><br/><b>  Issuer: </b><font color=blue size=4>' + result[4] + '</font><br/><b>  Certificate URL: </b><font color=blue size=4>'+ result[5] + '</font>');
+			$("#certification").html('<b>Employee Id: </b><font color=blue size=4>' + result[0] + '</font><br/><b>  Employee Name: </b><font color=blue size=4>' + result[1] + '</font><br/><b>   Program: </b><font color=blue size=4>' + result[2] + '</font><br/><b>  Issuer: </b><font color=blue size=4>' + result[4] + '</font><br/><b>  Certificate URL: </b><font color=blue size=4>'+ result[5] + '</font>');
 			console.log(result);
 		} else
 		{
