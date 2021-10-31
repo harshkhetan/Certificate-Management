@@ -109,14 +109,14 @@
 				"inputs": [
 					{
 						"indexed": false,
-						"internalType": "uint256",
-						"name": "certificationEvent_employeeId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "certificationEvent_recipientAddress",
+						"type": "address"
 					},
 					{
 						"indexed": false,
 						"internalType": "string",
-						"name": "certificationEvent_employeeName",
+						"name": "certificationEvent_recipientName",
 						"type": "string"
 					},
 					{
@@ -192,19 +192,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "certificate_counter",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -217,30 +204,6 @@
 					{
 						"internalType": "string",
 						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "employeeCertificate",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "employeeId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "program",
 						"type": "string"
 					}
 				],
@@ -293,13 +256,13 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "_employeeId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "_recipient",
+						"type": "address"
 					},
 					{
 						"internalType": "string",
-						"name": "_employeeName",
+						"name": "_recipientName",
 						"type": "string"
 					},
 					{
@@ -402,17 +365,17 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "_employeeId",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "_recipient",
+						"type": "address"
 					}
 				],
 				"name": "retrieveCertificate",
 				"outputs": [
 					{
-						"internalType": "uint256",
+						"internalType": "address",
 						"name": "",
-						"type": "uint256"
+						"type": "address"
 					},
 					{
 						"internalType": "string",
@@ -423,11 +386,6 @@
 						"internalType": "string",
 						"name": "",
 						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
 					},
 					{
 						"internalType": "address",
@@ -438,6 +396,11 @@
 						"internalType": "string",
 						"name": "",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -721,7 +684,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"src/contracts/Certificate.sol": "Certificate"
+			"Certificate-Management/src/contracts/Certificate.sol": "Certificate"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -847,12 +810,12 @@
 				"dweb:/ipfs/QmcsVgLgzWdor3UnAztUkXKNGcysm1MPneWksF72AvnwBx"
 			]
 		},
-		"src/contracts/Certificate.sol": {
-			"keccak256": "0x83ae7519bc1049a0a9f06ee8396623f48d02a364a3a54e5263b05fd9030cc37d",
+		"Certificate-Management/src/contracts/Certificate.sol": {
+			"keccak256": "0x0715a19b819d708401337d06c43e9a67c20c954decaa7cd399b30ba47a3e8308",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://7b0facf456853b58b3339ab8c248d001b7d3afa16815056f76a055c6b7e4bebe",
-				"dweb:/ipfs/QmPD4sRumDpX59nJ5Bw2D9MKtaQsqS6HzvDLSHo2Rf7w7X"
+				"bzz-raw://f62dffb92e5a845916fad1b40dc6fd3ad0388c253339fe55a39d9197553d72c0",
+				"dweb:/ipfs/QmXiLQMWd3K3yvSJDsM52oU3wmgX3wME8yWunQaRyQAuV3"
 			]
 		}
 	},

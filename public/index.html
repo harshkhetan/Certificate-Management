@@ -21,17 +21,17 @@
 		<img id="loader" src="ajax-loader.gif">
         <h2 id="certification"></h2>
 
-		<label for="employeeId" class="col-lg-2 control-label">Employee Id</label>
-        <input id="employeeId" type="text">
+		<label for="recipientAddress" class="col-lg-2 control-label">Recipient Address</label>
+        <input id="recipientAddress" type="text">
 
-        <label for="employeeName" class="col-lg-2 control-label">Employee Name</label>
-        <input id="employeeName" type="text">
+        <label for="recipientName" class="col-lg-2 control-label">Recipient Name</label>
+        <input id="recipientName" type="text">
 
         <label for="Program" class="col-lg-2 control-label"> Program</label>
 		<select id="Program" name="Program" style="width:52%;height:40px;margin-bottom: 1em;font-size:17px;" >
-			<option value="Explorer">Explorer</option>
-			<option value="Apprentice">Apprentice</option>
-			<option value="Guru">Guru</option>
+			<option value="CLF">AWS Certified Cloud Practitioner</option>
+			<option value="SAA">AWS Certified Solutions Architect - Associate</option>
+			<option value="SAP">AWS Certified Solutions Architect - Professional</option>
 		  </select>
 
 		  <label for="issuer" class="col-lg-2 control-label">Issuer Address</label>
@@ -54,7 +54,7 @@
 
 	// Update these variables with YOUR account number and contract address
   var myAccountNumber = "0x7e1d61EABFE08434A9e33612127dD88228957bd1";
-	var myContractAddress = "0x920Bf90029cF2A85286cEe23261779B4ce349E85";
+	var myContractAddress = "0x5b2AE019711c37d827a9CCC9384900B866aFc446";
 
 	// var myAccountNumber = 'PASTE YOUR ACCOUNT NUMBER HERE (FROM GANACHE)';
 	// var myContractAddress = 'PASTE YOUR DEPLOYED CONTRACT ADDRESS HERE (FROM GANACHE)';
@@ -72,6 +72,11 @@
 
 	// Build a reference to the smart contract.
   var certificateContract = new web3.eth.Contract([
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"anonymous": false,
 		"inputs": [
@@ -171,20 +176,20 @@
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "certificationEvent_employeeId",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "certificationEvent_recipientAddress",
+				"type": "address"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "certificationEvent_employeeName",
+				"name": "certificationEvent_recipientName",
 				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "certificationEvent_Program",
+				"name": "certificationEvent_program",
 				"type": "string"
 			},
 			{
@@ -237,175 +242,12 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_employeeId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_employeeName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_Program",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "_issuer",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_tokenURI",
-				"type": "string"
-			}
-		],
-		"name": "issueCertificate",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "safeTransferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes",
-				"name": "_data",
-				"type": "bytes"
-			}
-		],
-		"name": "safeTransferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "approved",
-				"type": "bool"
-			}
-		],
-		"name": "setApprovalForAll",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "owner",
 				"type": "address"
 			}
 		],
 		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "certificate_counter",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -429,30 +271,6 @@
 			{
 				"internalType": "string",
 				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "employeeCertificate",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "employeeId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "Program",
 				"type": "string"
 			}
 		],
@@ -500,6 +318,39 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_recipientName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_program",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_issuer",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "issueCertificate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -572,19 +423,26 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_employeeId",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_recipient",
+				"type": "address"
 			}
 		],
 		"name": "retrieveCertificate",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "address",
 				"name": "",
-				"type": "uint256"
+				"type": "address"
 			},
 			{
 				"internalType": "string",
@@ -595,11 +453,6 @@
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			},
 			{
 				"internalType": "address",
@@ -610,9 +463,83 @@
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -721,6 +648,42 @@
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ]);
 
@@ -729,12 +692,12 @@
 
 //	Display contract info for confirmation	
 //	console.log(certificateContract);
-console.log($("#employeeId").val());
+console.log($("#recipientAddress").val());
   certificateContract.events.certificationEvent(
 		function(error, result){
 			if (!error) {
 				$("#loader").hide();
-				$("#certification").html('Employee Id: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeId + '</font><br/>  Employee Name: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeName + '</font><br/>   Program: <font color=blue size=4>' + result.returnValues.certificationEvent_Program + '</font><br/>  Issuer: <font color=blue size=4>' + result.returnValues.certificationEvent_issuer + '</font><br/>  Certificate URL: <font color=blue size=4>'+ result.returnValues.certificationEvent_tokenURI + '</font>');
+				$("#certification").html('Recipient Address: <font color=blue size=4>' + result.returnValues.certificationEvent_recipientAddress + '</font><br/>  Recipient Name: <font color=blue size=4>' + result.returnValues.certificationEvent_recipientName + '</font><br/>   Program: <font color=blue size=4>' + result.returnValues.certificationEvent_program + '</font><br/>  Issuer: <font color=blue size=4>' + result.returnValues.certificationEvent_issuer + '</font><br/>  Certificate URL: <font color=blue size=4>'+ result.returnValues.certificationEvent_tokenURI + '</font>');
 			
 			} else {
 				$("#loader").hide();
@@ -755,8 +718,8 @@ console.log($("#employeeId").val());
 	$("#issueCertificate").click(function () {
 
 		// Get certification info from the UI
-		var theEmployeeId = $("#employeeId").val();
-		var theEmployeeName = $("#employeeName").val();
+		var therecipientAddress = $("#recipientAddress").val();
+		var theRecipientName = $("#recipientName").val();
 		var theProgram = $("#Program option:selected").text();
 	    var theIssuerAddress = $("#issuer").val();
 	    var theTokenURI = $("#tokenURI").val();
@@ -765,11 +728,11 @@ console.log($("#employeeId").val());
 		
 		// if (!error) {
 			// Pass collected info to SetCertificate contract method
-			certificateContract.methods.issueCertificate(theEmployeeId, theEmployeeName, theProgram, theIssuerAddress,  theTokenURI).send({from:myAccountNumber,gas:1000000});
+			certificateContract.methods.issueCertificate(therecipientAddress, theRecipientName, theProgram, theIssuerAddress,  theTokenURI).send({from:myAccountNumber,gas:1000000});
 
-			document.getElementById("employeeId").value="";
-			document.getElementById("employeeName").value="";
-			document.getElementById("Program").value="Explorer";
+			document.getElementById("recipientAddress").value="";
+			document.getElementById("recipientName").value="";
+			document.getElementById("Program").value="CLF";
 			document.getElementById("issuer").value="";
 			document.getElementById("tokenURI").value="";
 		// } else
@@ -786,22 +749,22 @@ console.log($("#employeeId").val());
 	});
 
 
-		// Retrieve certificate info using the employee Id
+		// Retrieve certificate info using the Recipient Address
 		$("#retrieveCertificate").click(function () {
 
-	// Get employee info from the UI
-	var theEmployeeId = $("#employeeId").val();
-	console.log("THE Employee Id IS: " + theEmployeeId);
+	// Get Recipient info from the UI
+	var therecipientAddress = $("#recipientAddress").val();
+	console.log("THE Recipient Address IS: " + therecipientAddress);
 
 
 // Show the loading icon. This icon will be hidden when the certificateEvent event is raised by the contract.
 $("#loader").show();
 
 // Pass collected info to SetCertificate contract method
-certificateContract.methods.retrieveCertificate($("#employeeId").val()).call(function (error, result) {
-		console.log($("#employeeId").val());
+certificateContract.methods.retrieveCertificate($("#recipientAddress").val()).call(function (error, result) {
+		console.log($("#recipientAddress").val());
 		if (!error) {
-			$("#certification").html('<b>Employee Id: </b><font color=blue size=4>' + result[0] + '</font><br/><b>  Employee Name: </b><font color=blue size=4>' + result[1] + '</font><br/><b>   Program: </b><font color=blue size=4>' + result[2] + '</font><br/><b>  Issuer: </b><font color=blue size=4>' + result[4] + '</font><br/><b>  Certificate URL: </b><font color=blue size=4>'+ result[5] + '</font>');
+			$("#certification").html('<b>Recipient Address: </b><font color=blue size=4>' + result[0] + '</font><br/><b>  Recipient Name: </b><font color=blue size=4>' + result[1] + '</font><br/><b>   Program: </b><font color=blue size=4>' + result[2] + '</font><br/><b>  Issuer: </b><font color=blue size=4>' + result[3] + '</font><br/><b>  Certificate URL: </b><font color=blue size=4>'+ result[4] + '</font>');
 			console.log(result);
 		} else
 		{
