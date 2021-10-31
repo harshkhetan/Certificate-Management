@@ -27,9 +27,8 @@ Gas is a transaction fee required when interacting with the smart contract. The 
 The system also provides any user to access the data of who issued and when it was issued. This provides a way to check the authenticity of the certificate, the recipient, and the issuer.
 
 #### Validations 
-Only identified issuer can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
-
-The certificate which is issued, cannot be minted twice. If a certificate already exists for the unique identifier (recipient address) and Program an error will be thrown.
+* Only identified issuer can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
+* The certificate which is issued, cannot be minted twice. If a certificate already exists for the unique identifier (recipient address) and Program an error will be thrown.
 
 #### Users 
 There are 3 types of users the system provides support to: 
