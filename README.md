@@ -18,17 +18,17 @@ The dependency is a personal blockchain, which is a local development blockchain
 ## **Architecture Overview** 
 ![Certificate Management Architecture Overview](/assets/images/Certificate-Management.jpg)
 
-To certify any recipient, an issuer first mints the certificate as a Non-fungible token (NFT) token using the registered recipient’s address. At the recipient’s end, it can get the details of all the certificates he has received. 
+To certify any recipient, an issuer first mints the certificate as a Non-fungible token (NFT) using the registered recipient’s address. At the recipient’s end, it can get the details of all the certificates he has received. 
 
 If a third party wants to check the details of issuer, recipient, or the certificate, it can easily do so. The function for Issuing, or retrieving certificates is implemented in the form of transaction. The cost of any transaction done, is the “gas” cost. 
 
-Gas is a transaction fee required when interacting with the smart contract. The gas depends on the logic implemented on the smart contract. 
+*Gas is a transaction fee required when interacting with the smart contract. The gas depends on the logic implemented on the smart contract.* 
 
 The system also provides any user to access the data of who issued and when it was issued. This provides a way to check the authenticity of the certificate, the recipient, and the issuer.
 
 #### Validations 
 * Only identified issuer can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
-* The certificate which is issued, cannot be minted twice. If a certificate already exists for the unique identifier (recipient address) and Program an error will be thrown.
+* The certificate which is issued, cannot be minted twice. If a certificate already exists for the recipient address and Program an error will be thrown.
 
 #### Users 
 There are 3 types of users the system provides support to: 
