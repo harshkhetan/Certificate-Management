@@ -22,7 +22,7 @@ To certify any recipient, an issuer first mints the certificate as a Non-fungibl
 
 If a third party wants to check the details of issuer, recipient, or the certificate, it can easily do so. The function for Issuing, or retrieving certificates is implemented in the form of transaction. The cost of any transaction done, is the “gas” cost. 
 
-*Gas is a transaction fee required when interacting with the smart contract. The gas depends on the logic implemented on the smart contract.* 
+>Gas is a transaction fee required when interacting with the smart contract. The gas depends on the logic implemented on the smart contract.
 
 The system also provides any user to access the data of who issued and when it was issued. This provides a way to check the authenticity of the certificate, the recipient, and the issuer.
 
