@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blockchain Guild Certification</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="../node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Certification Dashboard</h1>
+		<!--Display a spinner while waiting for information-->
+		<img id="loader" src="ajax-loader.gif">
+        <h2 id="certification"></h2>
+
+		<label for="employeeId" class="col-lg-2 control-label">Employee Id</label>
+        <input id="employeeId" type="text">
+
+        <label for="employeeName" class="col-lg-2 control-label">Employee Name</label>
+        <input id="employeeName" type="text">
+
+        <label for="guildProgram" class="col-lg-2 control-label">Guild Program</label>
+		<select id="guildProgram" name="guildProgram" style="width:52%;height:40px;margin-bottom: 1em;font-size:17px;" >
+			<option value="Explorer">Explorer</option>
+			<option value="Apprentice">Apprentice</option>
+			<option value="Guru">Guru</option>
+		  </select>
+
+		  <label for="issuer" class="col-lg-2 control-label">Issuer Address</label>
+        <input id="issuer" type="text">
+
+		<label for="tokenURI" class="col-lg-2 control-label">Token URI</label>
+        <input id="tokenURI" type="text">
+		</br>
+	</br>
+		<div id="button" >
+        <button id="issueCertificate">Issue Certificate</button> &nbsp;&nbsp;&nbsp;
+		<button id="retrieveCertificate">Retrieve Certificate</button>
+	</div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+
+	// Update these variables with YOUR account number and contract address
+  var myAccountNumber = "0x7e1d61EABFE08434A9e33612127dD88228957bd1";
+	var myContractAddress = "0x0D4D4Cb2D3bEF52Ab77d5aDc94c64E74ea95984b";
+
+	// var myAccountNumber = 'PASTE YOUR ACCOUNT NUMBER HERE (FROM GANACHE)';
+	// var myContractAddress = 'PASTE YOUR DEPLOYED CONTRACT ADDRESS HERE (FROM GANACHE)';
+
+	// // Create a new web3 reference
+	// web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+
+	// The syntax below uses Web3's WebsocketProvider instead of the HttpProvider. This provider DOES support event subscriptions.
+	let web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:7545'))
+
+	// Check your account balance, display the result
+	//web3.eth.getBalance(myAccountNumber).then(balance => console.log(balance));
+
+  //var addressBalance = web3.eth.getBalance(myAccountNumber).balance;
+
+	// Build a reference to the smart contract.
+  var certificateContract = new web3.eth.Contract([
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "approved",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "ApprovalForAll",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "certificationEvent_employeeId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "certificationEvent_employeeName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "certificationEvent_guildProgram",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "certificationEvent_issuer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "certificationEvent_tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "certificationEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "errorEvent_Description",
+				"type": "string"
+			}
+		],
+		"name": "errorEvent",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_employeeId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_employeeName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_guildProgram",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_issuer",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "issueCertificate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "_data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "certificate_counter",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "certificates",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "employeeCertificate",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "employeeId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "guildProgram",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getApproved",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			}
+		],
+		"name": "isApprovedForAll",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "issuerCertificates",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerOf",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_employeeId",
+				"type": "uint256"
+			}
+		],
+		"name": "retrieveCertificate",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes4",
+				"name": "interfaceId",
+				"type": "bytes4"
+			}
+		],
+		"name": "supportsInterface",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenOfOwnerByIndex",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "tokenURI",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+
+	//var certificateContract = new web3.eth.Contract('PASTE YOUR ABI HERE (without the quotes)');
+	certificateContract.options.address = myContractAddress;
+
+//	Display contract info for confirmation	
+//	console.log(certificateContract);
+console.log($("#employeeId").val());
+  certificateContract.events.certificationEvent(
+		function(error, result){
+			if (!error) {
+				$("#loader").hide();
+				$("#certification").html('Employee Id: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeId + '</font><br/>  Employee Name: <font color=blue size=4>' + result.returnValues.certificationEvent_employeeName + '</font><br/>  Guild Program: <font color=blue size=4>' + result.returnValues.certificationEvent_guildProgram + '</font><br/>  Issuer: <font color=blue size=4>' + result.returnValues.certificationEvent_issuer + '</font><br/>  Certificate URL: <font color=blue size=4>'+ result.returnValues.certificationEvent_tokenURI + '</font>');
+			
+			} else {
+				$("#loader").hide();
+				console.log(error);
+				$("#certification").html('<font color=red size=7>'+ error.show() +'</font>');
+			} // else
+		} // function(error, result)
+	); 
+
+	certificateContract.events.errorEvent(
+		function(error, result){
+			$("#loader").hide();
+			$("#certification").html('<h1>ERROR: </h1><br/>' + result.returnValues.errorEvent_Description);
+		} // function(error, result)
+	); 
+
+	// Update the current certificate info using the user-provided information
+	$("#issueCertificate").click(function () {
+
+		// Get certification info from the UI
+		var theEmployeeId = $("#employeeId").val();
+		var theEmployeeName = $("#employeeName").val();
+		var theGuildProgram = $("#guildProgram option:selected").text();
+	    var theIssuerAddress = $("#issuer").val();
+	    var theTokenURI = $("#tokenURI").val();
+		// Show the loading icon. This icon will be hidden when the certificateEvent event is raised by the contract.
+		$("#loader").show();
+		
+		// if (!error) {
+			// Pass collected info to SetCertificate contract method
+			certificateContract.methods.issueCertificate(theEmployeeId, theEmployeeName, theGuildProgram, theIssuerAddress,  theTokenURI).send({from:myAccountNumber,gas:1000000});
+
+			document.getElementById("employeeId").value="";
+			document.getElementById("employeeName").value="";
+			document.getElementById("guildProgram").value="Explorer";
+			document.getElementById("issuer").value="";
+			document.getElementById("tokenURI").value="";
+		// } else
+		// {
+		// 	console.error(error);
+		// 	$("#certification").html('<font color=red size=7>'+ error +'</font>');
+		// }
+			$("#loader").hide();
+
+
+
+
+
+	});
+
+
+		// Retrieve certificate info using the employee Id
+		$("#retrieveCertificate").click(function () {
+
+	// Get employee info from the UI
+	var theEmployeeId = $("#employeeId").val();
+	console.log("THE Employee Id IS: " + theEmployeeId);
+
+
+// Show the loading icon. This icon will be hidden when the certificateEvent event is raised by the contract.
+$("#loader").show();
+
+// Pass collected info to SetCertificate contract method
+certificateContract.methods.retrieveCertificate($("#employeeId").val()).call(function (error, result) {
+		console.log($("#employeeId").val());
+		if (!error) {
+			$("#certification").html('<b>Employee Id: </b><font color=blue size=4>' + result[0] + '</font><br/><b>  Employee Name: </b><font color=blue size=4>' + result[1] + '</font><br/><b>  Guild Program: </b><font color=blue size=4>' + result[2] + '</font><br/><b>  Issuer: </b><font color=blue size=4>' + result[4] + '</font><br/><b>  Certificate URL: </b><font color=blue size=4>'+ result[5] + '</font>');
+			console.log(result);
+		} else
+		{
+			console.error(error);
+			$("#certification").html('<font color=red size=7> No record found! </font>');
+		}
+			$("#loader").hide();
+	}
+  );
+
+});
+
+    </script>
+
+</body>
+
+</html>
+
+
