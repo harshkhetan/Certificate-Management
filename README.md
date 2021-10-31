@@ -18,7 +18,7 @@ The dependency is a personal blockchain, which is a local development blockchain
 ## **Architecture Overview** 
 ![Certificate Management Architecture Overview](/assets/images/Certificate-Management.jpg)
 
-To certify any recipient, an issuer first mints the certificate as a Non-fungible token (NFT) token using the registered recipient’s Employee Id. At the recipient’s end, it can get the details of all the certificates he has received. 
+To certify any recipient, an issuer first mints the certificate as a Non-fungible token (NFT) token using the registered recipient’s address. At the recipient’s end, it can get the details of all the certificates he has received. 
 
 If a third party wants to check the details of issuer, recipient, or the certificate, it can easily do so. The function for Issuing, or retrieving certificates is implemented in the form of transaction. The cost of any transaction done, is the “gas” cost. 
 
@@ -29,13 +29,13 @@ The system also provides any user to access the data of who issued and when it w
 #### Checks 
 Only identified issuer can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
 
-The certificate which is issued, cannot be minted twice. If a certificate already exists for the unique identifier (employee Id) and level (Explorer, Apprentice, Guru) an error will be thrown.
+The certificate which is issued, cannot be minted twice. If a certificate already exists for the unique identifier (recipient address) and level (Explorer, Apprentice, Guru) an error will be thrown.
 
 #### Users 
 There are 3 types of users the system provides support to: 
 
 * **Issuer:** This is the certifying authority, which mints new certificates, then issues the desired recipient that certificate. 
-* **Recipient:** This is the recipient of the certificate. They provide their employee id to the issuer, to get the certificate issued. 
+* **Recipient:** This is the recipient of the certificate. They provide their recipient address to the issuer, to get the certificate issued. 
 * **Third Party:** This can be any anonymous user, which wants to verify the recipient’s certificate.
 
 ## **Advantages** 
