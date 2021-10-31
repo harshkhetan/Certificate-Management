@@ -17,7 +17,7 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     Counters.Counter private _tokenIds;
 
     //certification public newCert;
-    //address owner;
+    //address owner; 
 
     // A custom data structure used to define elements of BCG Certificate
     struct certification {
