@@ -16,6 +16,7 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, AccessContro
 
     bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
+    //bytes32 public constant ISSUER_ROLE_MICROSOFT = keccak256("ISSUER_ROLE_MICROSOFT");
 
     address[2] issuerAddress = [0x35C4ca68EA5678eAef4A9229A764E2e3e068aCbf, 0x5835F1f23b369BAd9CC5942d6c3e427C3ef8Dac2];
     
@@ -51,6 +52,7 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, AccessContro
         //Setting by default the contract owner role as admin.
         _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
         _setRoleAdmin(ISSUER_ROLE, ADMIN_ROLE);
+        //_setRoleAdmin(ISSUER_ROLE_MICROSOFT, ADMIN_ROLE);
 
 
         _setupRole(ADMIN_ROLE, _msgSender());
