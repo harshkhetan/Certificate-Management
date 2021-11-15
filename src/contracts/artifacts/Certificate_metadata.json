@@ -1008,11 +1008,11 @@
 			]
 		},
 		"Certificate-Management/src/contracts/Certificate.sol": {
-			"keccak256": "0x7f504c9ca508a611aff6c9a11ec06a499154be81739d68bb29a6959f47666365",
+			"keccak256": "0xef98ad70ba70fc15517e45db871f2713ac101804aabfefd2fb91c487262d929b",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://0ddf4a36bafd50d5cf5ba57d39f9d3b5ce9445299e5c1e0c043fa724394181c9",
-				"dweb:/ipfs/QmSjHMgninosfaUboZCsA2o8hSLNzxwbVegE6zHdpRhZew"
+				"bzz-raw://9619e988012feb9cd0405176ad3ae276b87be50a485df3bc6238b7c77a97e698",
+				"dweb:/ipfs/QmcGmdZejxzVMmM2wCL4DDcekZ5Cp6hTazMRdevpF5EJUS"
 			]
 		}
 	},
