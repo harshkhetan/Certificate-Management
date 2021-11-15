@@ -35,7 +35,12 @@
 		  </select>
 
 		  <label for="issuer" class="col-lg-2 control-label">Issuer Address</label>
-        <input id="issuer" type="text">
+        <!-- <input id="issuer" type="text"> -->
+		<select id="issuer" name="issuer" style="width:52%;height:40px;margin-bottom: 1em;font-size:17px;" >
+			<option value="0x35C4ca68EA5678eAef4A9229A764E2e3e068aCbf">Amazon Certificate Issuer#1</option>
+			<option value="0x5835F1f23b369BAd9CC5942d6c3e427C3ef8Dac2">Amazon Certificate Issuer#2</option>
+			<option value="0xb47A759f584C3bc00C0261b6f72d51A8d3865D0d">Microsoft</option>
+		  </select>
 
 		<label for="tokenURI" class="col-lg-2 control-label">Token URI</label>
         <input id="tokenURI" type="text">
@@ -54,7 +59,7 @@
 
 	// Update these variables with YOUR account number and contract address
   var myAccountNumber = "0x7e1d61EABFE08434A9e33612127dD88228957bd1";
-	var myContractAddress = "0x5b2AE019711c37d827a9CCC9384900B866aFc446";
+	var myContractAddress = "0x64aE460f35bE116AC9c337C8b322dd89CbB2B37C";
 
 	// var myAccountNumber = 'PASTE YOUR ACCOUNT NUMBER HERE (FROM GANACHE)';
 	// var myContractAddress = 'PASTE YOUR DEPLOYED CONTRACT ADDRESS HERE (FROM GANACHE)';
@@ -132,18 +137,74 @@
 		"inputs": [
 			{
 				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "previousAdminRole",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "newAdminRole",
+				"type": "bytes32"
+			}
+		],
+		"name": "RoleAdminChanged",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
 				"internalType": "address",
-				"name": "previousOwner",
+				"name": "account",
 				"type": "address"
 			},
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "newOwner",
+				"name": "sender",
 				"type": "address"
 			}
 		],
-		"name": "OwnershipTransferred",
+		"name": "RoleGranted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "RoleRevoked",
 		"type": "event"
 	},
 	{
@@ -222,6 +283,45 @@
 		"type": "event"
 	},
 	{
+		"inputs": [],
+		"name": "ADMIN_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DEFAULT_ADMIN_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ISSUER_ROLE",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -291,6 +391,67 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			}
+		],
+		"name": "getRoleAdmin",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "grantRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "hasRole",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -378,6 +539,30 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_issuer",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "mintNFT",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "name",
 		"outputs": [
@@ -385,19 +570,6 @@
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -423,8 +595,19 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "renounceOwnership",
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "renounceRole",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -471,6 +654,24 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "role",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "revokeRole",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -671,19 +872,6 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	}
 ]);
 
@@ -697,7 +885,7 @@ console.log($("#recipientAddress").val());
 		function(error, result){
 			if (!error) {
 				$("#loader").hide();
-				$("#certification").html('Recipient Address: <font color=blue size=4>' + result.returnValues.certificationEvent_recipientAddress + '</font><br/>  Recipient Name: <font color=blue size=4>' + result.returnValues.certificationEvent_recipientName + '</font><br/>   Program: <font color=blue size=4>' + result.returnValues.certificationEvent_program + '</font><br/>  Issuer: <font color=blue size=4>' + result.returnValues.certificationEvent_issuer + '</font><br/>  Certificate URL: <font color=blue size=4>'+ result.returnValues.certificationEvent_tokenURI + '</font>');
+				$("#certification").html('Recipient Address: <font color=blue size=4>' + result.returnValues.certificationEvent_recipientAddress + '</font><br/>  Recipient Name: <font color=blue size=4>' + result.returnValues.certificationEvent_recipientName + '</font><br/>   Program: <font color=blue size=4>' + result.returnValues.certificationEvent_program + '</font><br/>  Issuer Address: <font color=blue size=4>' + result.returnValues.certificationEvent_issuer + '</font><br/>  Certificate URL: <font color=blue size=4>'+ result.returnValues.certificationEvent_tokenURI + '</font>');
 			
 			} else {
 				$("#loader").hide();
@@ -717,26 +905,30 @@ console.log($("#recipientAddress").val());
 	// Update the current certificate info using the user-provided information
 	$("#issueCertificate").click(function () {
 
+		
 		// Get certification info from the UI
 		var therecipientAddress = $("#recipientAddress").val();
 		var theRecipientName = $("#recipientName").val();
 		var theProgram = $("#Program option:selected").text();
-	    var theIssuerAddress = $("#issuer").val();
+	    //var theIssuerAddress = $("#issuer").val();
+		var theIssuerAddress = $("#issuer option:selected").val();
 	    var theTokenURI = $("#tokenURI").val();
 		// Show the loading icon. This icon will be hidden when the certificateEvent event is raised by the contract.
+		//alert(theIssuerAddress);
 		$("#loader").show();
 		
-		// if (!error) {
+		//if (!error) {
 			// Pass collected info to SetCertificate contract method
 			certificateContract.methods.issueCertificate(therecipientAddress, theRecipientName, theProgram, theIssuerAddress,  theTokenURI).send({from:myAccountNumber,gas:1000000});
 
 			document.getElementById("recipientAddress").value="";
 			document.getElementById("recipientName").value="";
 			document.getElementById("Program").value="CLF";
-			document.getElementById("issuer").value="";
+			document.getElementById("issuer").value="0x35C4ca68EA5678eAef4A9229A764E2e3e068aCbf";
 			document.getElementById("tokenURI").value="";
 		// } else
 		// {
+		// 	console.show(document.getElementById("issuer").value);
 		// 	console.error(error);
 		// 	$("#certification").html('<font color=red size=7>'+ error +'</font>');
 		// }
@@ -764,7 +956,7 @@ $("#loader").show();
 certificateContract.methods.retrieveCertificate($("#recipientAddress").val()).call(function (error, result) {
 		console.log($("#recipientAddress").val());
 		if (!error) {
-			$("#certification").html('<b>Recipient Address: </b><font color=blue size=4>' + result[0] + '</font><br/><b>  Recipient Name: </b><font color=blue size=4>' + result[1] + '</font><br/><b>   Program: </b><font color=blue size=4>' + result[2] + '</font><br/><b>  Issuer: </b><font color=blue size=4>' + result[3] + '</font><br/><b>  Certificate URL: </b><font color=blue size=4>'+ result[4] + '</font>');
+			$("#certification").html('<b>Recipient Address: </b><font color=blue size=4>' + result[0] + '</font><br/><b>  Recipient Name: </b><font color=blue size=4>' + result[1] + '</font><br/><b>   Program: </b><font color=blue size=4>' + result[2] + '</font><br/><b>  Issuer Address: </b><font color=blue size=4>' + result[3] + '</font><br/><b>  Certificate URL: </b><font color=blue size=4>'+ result[4] + '</font>');
 			console.log(result);
 		} else
 		{

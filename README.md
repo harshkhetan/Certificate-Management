@@ -8,6 +8,10 @@ Certification management system, is implemented in blockchain. Blockchain makes 
 * Data stored is for a long term. 
 * The security of records is guaranteed 
 
+It has multiple issuers, all the issuers/ recipients register themselves to the system. 
+
+Recipient have their own unique address; Issuer can also access recipient’s details from its address and issue certificate NFT tokens to the recipient. Whenever any recipient of the certificate must prove its certifications, he can simply send its address.
+
 #### Smart Contract: 
 Smart contract is a code which runs on blockchain, and is analogous to a traditional contract, but also automatically enforce the required obligations. A smart contract is a computer protocol intended to digitally facilitate, verify, or enforce the negotiation or performance of a contract. Smart contracts allow the performance of credible transactions without third parties. 
 >Note: Smart contract can be also made open sourced, and available to all. 
@@ -27,12 +31,13 @@ If a third party wants to check the details of issuer, recipient, or the certifi
 The system also provides any user to access the data of who issued and when it was issued. This provides a way to check the authenticity of the certificate, the recipient, and the issuer.
 
 #### Validations 
-* Only identified issuer can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
+* Only identified individual with issuer role and is permitted can issue certificate NFT tokens. If a non-issuer attempts to mint the NFT an error will be thrown, and the certificate will not be created. 
 * The certificate which is issued, cannot be minted twice. If a certificate already exists for the recipient address and Program an error will be thrown.
 
 #### Users 
-There are 3 types of users the system provides support to: 
+There are 4 types of users the system provides support to: 
 
+* **Admin:** This is the authority who has full control of the system and can issue/revoke Issuer Roles. i.e. admin of roles. 
 * **Issuer:** This is the certifying authority, which mints new certificates, then issues the desired recipient that certificate. 
 * **Recipient:** This is the recipient of the certificate. They have their own unique address; Issuer can also access recipient’s details from its address and issue certificate NFT tokens to the recipient. Whenever any recipient of the certificate must prove its certifications, he can simply send its address. 
 * **Third Party:** This can be any anonymous user, which wants to verify the recipient’s certificate.
@@ -66,7 +71,6 @@ There is gas fees for each transaction while placing the bet depends on the smar
 ## **Future Scope**
 >Below are some of the highlights:
 
-* Expand it to multiple issuers. All the issuers/ recipients register themselves to the system. 
 * The profile details of the users are stored on IPFS, identified by some unique hash, which is stored in the blockchain.  
 * A feature of revoking a certificate can be added which can also be used for time-valid certificates. 
 * A system of privilege-based access to certificate can be implemented, where only the allowed users can access the certificates. 

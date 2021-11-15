@@ -5,16 +5,20 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-//import "src/contracts/DateTime.sol";
 
-contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
+contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl {
 
     string[] public certificates;
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
+
+    address[2] issuerAddress = [0x35C4ca68EA5678eAef4A9229A764E2e3e068aCbf, 0x5835F1f23b369BAd9CC5942d6c3e427C3ef8Dac2];
+    
     // A custom data structure used to define elements of BCG Certificate
     struct certification {
         
@@ -37,19 +41,26 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     // Events
 
-    //event CertificateIssued(address indexed recipientAddress, string indexed recipientName, string indexed program, address indexed issuer, address indexed recipient);
-    
     // Event which will be raised anytime the current certificate information is updated.
     event certificationEvent(address certificationEvent_recipientAddress, string certificationEvent_recipientName, string certificationEvent_program, address certificationEvent_issuer, string  certificationEvent_tokenURI);
     // Event which will be raised anytime the current Certificate information is updated.
     event errorEvent(string errorEvent_Description);
 
-//Blockchain Certificate Management
- constructor() ERC721("Certificate", "BCM") {
-        //owner = msg.sender;
+    //Blockchain Certificate Management
+    constructor() ERC721("Certificate", "BCM") {
+        //Setting by default the contract owner role as admin.
+        _setRoleAdmin(ADMIN_ROLE, ADMIN_ROLE);
+        _setRoleAdmin(ISSUER_ROLE, ADMIN_ROLE);
+
+
+        _setupRole(ADMIN_ROLE, _msgSender());
+
+        // Register Issuer Address
+        for (uint256 i = 0; i < issuerAddress.length; ++i) {
+            _setupRole(ISSUER_ROLE, issuerAddress[i]);
+        }
+
     }
-
-
 
 // The following functions are overrides required by Solidity.
 
@@ -76,15 +87,15 @@ contract Certificate is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, ERC721Enumerable)
+        override(ERC721, ERC721Enumerable, AccessControl)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
     }
 
-function issueCertificate(address _recipient, string memory _recipientName, string memory _program, address _issuer,  string memory _tokenURI) public onlyOwner {
-   
-    require(owner() == _issuer, "Issuer do not have permission to issue a certificate");
+
+function issueCertificate(address _recipient, string memory _recipientName, string memory _program, address _issuer,  string memory _tokenURI) public { 
+    require(hasRole(ISSUER_ROLE, _issuer), "Issuer do not have permission to issue a certificate");
     require(isExist(_recipient,_program) == false, "Requested certificate is already issued to the recipient.");
    
 
@@ -95,12 +106,12 @@ function issueCertificate(address _recipient, string memory _recipientName, stri
         cert.recipient = _recipient;
         cert.recipientName = _recipientName;
         cert.program = _program;
-        cert.issuer = owner();
+        cert.issuer = _issuer;
         cert.timeOfIssue = block.timestamp;
 
         certificateIdentifier[id] = cert;
         recipientCertificates[_recipient].push(id);
-        issuerCertificates[owner()].push(id);
+        issuerCertificates[_issuer].push(id);
         
       emit certificationEvent(cert.recipient,cert.recipientName,cert.program, cert.issuer, _tokenURI);
     }
@@ -157,10 +168,10 @@ function retrieveCertificate(address _recipient) public view returns (address, s
 
     //Restrict ownership of function to Owner or Admin
    function mintNFT(address _issuer, string memory _tokenURI)
-        private
-        onlyOwner 
+       public
         returns (uint256)
     {
+        require(hasRole(ISSUER_ROLE, _issuer), "Issuer do not have permission to mint a NFT certificate");
         //safeMint(_recipient);
         _tokenIds.increment();
 
